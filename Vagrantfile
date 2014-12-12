@@ -7,7 +7,7 @@ Vagrant.configure('2') do |config|
   # Example configuration of new VM..
   config.vm.define :default do |vagrant_host|
     # Box name
-    vagrant_host.vm.box = 'rhel-7.0'
+    vagrant_host.vm.box = 'rhel7'
     
     # Domain Specific Options
     vagrant_host.vm.provider :libvirt do |domain|
@@ -15,7 +15,7 @@ Vagrant.configure('2') do |config|
       domain.cpus = 1
     end
 
-    config.vm.synced_folder './', '/vagrant', type: 'rsync'
+    #config.vm.synced_folder './', '/vagrant', type: 'rsync'
 
 #    vagrant_host.vm.network :private_network,
 #        :libvirt__network_name => 'either_nat'
@@ -32,13 +32,15 @@ Vagrant.configure('2') do |config|
   #   ansible.extra_vars = "vagrant-config.yml"
   #   ansible.sudo = "true"
   # end
-  
+ 
+  config.registration.subscriber_username = ''
+  config.registration.subscriber_password = '' 
   # Options for libvirt vagrant provider.
   config.vm.provider :libvirt do |libvirt|
     libvirt.driver = 'kvm'
     libvirt.connect_via_ssh = false
     libvirt.username = 'root'
-    libvirt.storage_pool_name = 'mnt_vms'
+    libvirt.storage_pool_name = 'default'
   end
 end
 

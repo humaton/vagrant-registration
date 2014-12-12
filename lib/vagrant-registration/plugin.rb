@@ -19,7 +19,7 @@ module VagrantPlugins
 
         def register(hook)
           @logger.info("in register hook")
-          hook.after(::Vagrant::Action::Builtin::ConfigValidate, 
+          hook.before(Vagrant::Action::Builtin::Provision, 
                      VagrantPlugins::Registration::Action.action_register)
         end
 
@@ -45,11 +45,11 @@ module VagrantPlugins
       @logger = Log4r::Logger.new("vagrant_register::plugin::setup")
       @logger.info("attempting to register hooks on up")
       action_hook(:registration_register, :machine_action_up, &method(:register))
-      action_hook(:registration_register, :machine_action_provision, &method(:register))
+      #action_hook(:registration_register, :machine_action_provision, &method(:register))
 
       @logger.info("attempting to register hooks on halt")
       action_hook(:registration_unregister, :machine_action_halt, &method(:unregister))
-      action_hook(:registration_unregister, :machine_action_destroy, &method(:unregister))
+      #action_hook(:registration_unregister, :machine_action_destroy, &method(:unregister))
 
       @logger.info("attempting to register hooks on destroy")
       action_hook(:registration_unregister, :machine_action_destroy, &method(:unregister_on_destroy))
